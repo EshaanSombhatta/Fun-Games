@@ -1,0 +1,21 @@
+a=open("Question Set 1.txt","r")
+n=""
+b=False
+number=1
+for x in a.readlines():
+    z=x.split(" ")
+    if "ANSWER:" in z:
+        n+="Answer:\n\n"
+        b=True
+    elif "("+str(number)+")" in z:
+        b=False
+        n+=x
+        number+=1
+    elif b==True:
+        pass
+    else:
+        n+=x
+a.close()
+a=open("New Question Set.txt","w")
+a.write(n)
+a.close()
