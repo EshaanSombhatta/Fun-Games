@@ -1,0 +1,129 @@
+def AdventureGame():
+  from time import time
+  def raise_exception():
+      raise Exception('You woke up. This was all a dream lol')
+  from AdventureCommands import bossFight,movecommand,movecommand2,question,beastfight
+  print("You are stuck on an island of doom (don't ask me how). Your goal is to escape the island, but while you are pondering how, you drop through a masterly concealed trapdoor. A beast in red pajamas forces you forward to three doors. This beast is apparently a talking beast, so he asks you a question:\n")
+  question(("Beast: In front of you are three doors (while he says that, you roll your eyes, because the doors are right in front of you). One of them has a key to the next room(next room?, you mutter). One is a bottomless pit. The other is filled with lava, and one door doesn't lead to a room.","Pit","Lava","No Room","3"))
+  print("Beast: Good Job! Now for some trivia.\n")
+  question(("what is the capital of New Jersey","Trenton","Not Trenton","1"))
+  print("Beast: I could ask more questions, but honestly you know all the answers. NOW WE FIGHT. For a brief moment, you think about fighting a Beast in pajamas. Then you look ahead. A giant robot faces you... and your only weapon is yourself....\n\n")
+  print("To get out you must use these commands below to navigate your way to the key and then reach the door without the robot reaching you.")
+#if you want, you can add more questions but this is the boss fight  
+  r_coords=[0,1]
+  y_coords=[5,3]
+  a=[
+  ['D', 'R', ' ', ' ', ' ', ' '], 
+  [' ', ' ', ' ', ' ', ' ', ' '], 
+  [' ', ' ', ' ', ' ', ' ', 'K'], 
+  [' ', ' ', ' ', ' ', ' ', ' '], 
+  [' ', ' ', ' ', ' ', ' ', ' '],   
+  [' ', ' ', ' ', 'Y', ' ', ' ']
+  ]
+  bossFight(a)
+  freezenumber=1  
+  while True:
+      direction=input("What direction do you want to go (You can also freeze)? ").lower()
+      words=["up","left"]
+      if y_coords[0]+y_coords[1]-1==0 and direction in words and "K" in a[2]:
+          print("Choose another direction")
+          continue
+      if direction=="up" and y_coords[0]>0:
+          movecommand(a,-1,"Y",y_coords)
+      elif direction=="down" and y_coords[0]<5:
+          movecommand(a,1,"Y",y_coords)
+      elif direction=="left" and y_coords[1]>0:
+          movecommand2(a,-1,"Y",y_coords)
+      elif direction=="right" and y_coords[1]<5:
+          movecommand2(a,1,"Y",y_coords)
+      elif direction=="freeze":
+          freezenumber-=1
+          continue
+      bossFight(a)    
+      #robot movement
+      from time import sleep
+      sleep(1)
+      if freezenumber<1 and freezenumber>-3:
+          freezenumber-=1
+          continue
+      if r_coords==y_coords:
+          print("You lost")
+          raise_exception()
+      if r_coords[0]==y_coords[0]:
+          if r_coords[1]>y_coords[1]:
+              movecommand2(a,-1,"R",r_coords)
+          else:
+              movecommand2(a,1,"R",r_coords)
+      else:
+          if r_coords[0]>y_coords[0]:
+              movecommand(a,-1,"R",r_coords)
+          else:
+              movecommand(a,1,"R",r_coords)
+      bossFight(a)
+      if y_coords==r_coords:
+          print("You lost")
+          raise_exception()
+      if "D" not in a[0]:
+          break
+  print("The Beast is not happy about your escape. He asks you why you didn't fight him, and you simply reply: I didn't fight because I didn't have any weapons. The beast hands you a sword and says: Now we fight. But first you need to get some extra health to even have a chance of beating the beast. You meet a sphinx. The quicker you answer her question, the more health you get.")
+
+  print("Find the word with these clues: French food, not omlette or croissant. Ends in an e and starts with a b, has eight letters including b and e. It is a type of bread. Guess the word, and you win. You have only one try so guess wisely.")
+  riddle_ans="Baguette"
+  extra_hp_start=time()
+  user_ans=input("Enter your answer here: ").capitalize()
+  extra_hp_end=time()
+  rounded_time=round(extra_hp_end-extra_hp_start, 0)
+  hp_num=50-rounded_time
+  confusionnumber=-2
+  if user_ans==riddle_ans:
+    print("Great job you got the word!")
+    print("It took you", rounded_time, "seconds to enter the correct answer")
+    print("Your extra health is granted")
+    print("You were granted", hp_num, "hp")
+    hp=hp_num
+  else:
+    print("Sorry but your luck has run out.")
+    print("The correct answer was Baguette")
+    print("your health is 10")
+    hp=10
+  from random import randint
+  bosshp=65
+  def template(number,num,lucknum,bosshp):
+    if num<lucknum:
+        print("You succeded!")
+        bosshp-=number
+    else:
+        print("You failed")
+    return bosshp
+  while True:
+    beastfight(hp,bosshp)
+    a=input("What move do you want to do: ").lower()
+    lucknum=randint(1,20)
+    if a=="power punch":
+        bosshp=template(5,6,lucknum,bosshp)
+    elif a=="punch":
+        bosshp=template(1,0,lucknum,bosshp)
+    elif a=="kick":
+        bosshp=template(2,2,lucknum,bosshp)
+    elif a=="confusion":
+        confusionnumber=template(1,10,lucknum,confusionnumber)
+    elif a=="killer kick":
+        bosshp=template(65,18,lucknum,bosshp)
+    elif a=="healing spell":
+        hp=template(-3,4,lucknum,hp)
+    else:
+        print("choose another command")
+        continue
+    if confusionnumber> -2 and confusionnumber<1:
+          confusionnumber+=1
+          continue
+      
+    bossluck=randint(1,4)
+    hp-=bossluck
+
+    if bosshp<=0:
+        print("Nice Job! You escaped the island")
+        break
+    elif hp<0:
+        raise Exception("You woke up")
+  print("You might have discovered that you were in a dream this whole time, but at least you won and had a great time!")
