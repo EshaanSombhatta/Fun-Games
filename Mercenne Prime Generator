@@ -1,0 +1,19 @@
+a=int(input("What is number 1: "))
+b=int(input("What is number 2: "))
+from math import log,ceil,floor
+c=log(a,2)
+d=log(b,2)
+f=[]
+g=True
+if d-c<1:
+    print("There are no Mercenne primes within this range")
+else:
+    for x in range(ceil(c),ceil(d)):
+        e=2**x-1
+        for i in range(2,e//2+1):
+            if e%i==0:
+                g=False
+        if g==True:
+            f.append(e)
+        g=True
+print(f)
