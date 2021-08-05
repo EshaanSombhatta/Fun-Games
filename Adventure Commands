@@ -1,0 +1,101 @@
+def question(args):
+    from sys import exit
+    global a
+    correctanswer=args[-1]
+    question=args[0]+"\n"
+    for x in range(len(args)-2):
+        question+=f"{x+1}. {args[x+1]}\n"
+    print(question)
+    answer=input("What is your answer? ")
+    if correctanswer==answer:
+        print("Good Job! You Survived...for now")
+    else:
+        print("You...ended up waking up from a horrible dream. Now you can go to school-You're late!")
+        exit()
+def bossFight(a):
+        print(f'''
+        K=key
+        D=door
+        R=robot
+        Y=You
+        Freeze Command: You can freeze the robot once during the whole run: This will last for four turns. Use this wisely. Robot cannot pursue you during this time.
+
+            1     2     3     4     5     6
+         |-----|-----|-----|-----|-----|-----|
+       1 |  {a[0][0]}  |  {a[0][1]}  |  {a[0][2]}  |  {a[0][3]}  |  {a[0][4]}  |  {a[0][5]}  |  
+         |-----|-----|-----|-----|-----|-----|
+       2 |  {a[1][0]}  |  {a[1][1]}  |  {a[1][2]}  |  {a[1][3]}  |  {a[1][4]}  |  {a[1][5]}  |  
+         |-----|-----|-----|-----|-----|-----|
+       3 |  {a[2][0]}  |  {a[2][1]}  |  {a[2][2]}  |  {a[2][3]}  |  {a[2][4]}  |  {a[2][5]}  |  
+         |-----|-----|-----|-----|-----|-----|
+       4 |  {a[3][0]}  |  {a[3][1]}  |  {a[3][2]}  |  {a[3][3]}  |  {a[3][4]}  |  {a[3][5]}  |  
+         |-----|-----|-----|-----|-----|-----|
+       5 |  {a[4][0]}  |  {a[4][1]}  |  {a[4][2]}  |  {a[4][3]}  |  {a[4][4]}  |  {a[4][5]}  |  
+         |-----|-----|-----|-----|-----|-----|
+       6 |  {a[5][0]}  |  {a[5][1]}  |  {a[5][2]}  |  {a[5][3]}  |  {a[5][4]}  |  {a[5][5]}  |  
+         |-----|-----|-----|-----|-----|-----|
+        ''')
+
+def movecommand(a,number,letter,listx):
+        if "K" not in a[2] and listx[0]+number+listx[1]==0 and letter=="Y":
+            print("You won!")
+            a[listx[0]][listx[1]]=" "
+            a[listx[0]+number][listx[1]]=letter
+            listx[1]+=number     
+        elif listx[0]+number+listx[1]==0:
+            if letter=="R":
+                a[listx[0]][listx[1]]=" "
+                a[listx[0]][listx[1]+1]=letter
+                listx[1]+=number
+            else:
+                print("Use another command")
+        elif a[listx[0]+number][listx[1]]=="K" and letter=="R":
+            a[listx[0]][listx[1]]=" "
+            a[listx[0]][listx[1]+1]=letter
+            listx[1]+=number
+        else:
+            a[listx[0]][listx[1]]=" "
+            a[listx[0]+number][listx[1]]=letter
+            listx[0]+=number
+            
+def movecommand2(a,number,letter,listx):
+    if "K" not in a[2] and listx[0]+listx[1]+number==0 and letter=="Y":
+        print("You won!")
+        a[listx[0]][listx[1]]=" "
+        a[listx[0]][listx[1]+number]=letter
+        listx[1]+=number   
+    elif listx[0]+listx[1]+number==0:
+        if letter=="R":
+            a[listx[0]][listx[1]]=" "
+            a[listx[0]+1][listx[1]]=letter
+            listx[0]+=1
+        else:
+            print("Use another command")
+    elif listx[0]+listx[1]+number==7 and letter=="R":
+        a[listx[0]][listx[1]]=" "
+        a[listx[0]+1][listx[1]]=letter
+        listx[0]+=1
+    else:
+        a[listx[0]][listx[1]]=" "
+        a[listx[0]][listx[1]+number]=letter
+        listx[1]+=number
+
+def beastfight(yourhp,bosshp):
+    print(f"""
+    Your health:{yourhp}
+    Boss health:{bosshp}
+
+    ------------------------------------------------------------------------------------------
+                                                                                             |
+    Options:                                                                                 |
+                                                                                             |
+    Killer Kick: 10% chance, but automatically kills boss                                    |
+    Healing Potion 80% chance, heals 3 hp                                                    |
+    Confusion: 50% chance to confuse the boss and stop it from fighting for 2 moves-1 use    |
+    Power Punch: 70% chance, deals 5 hp                                                      |
+    Kick: 90% chance, deals 2 hp                                                             |
+    Punch: 100% chance, deals 1 hp                                                           |
+                                                                                             |
+    ------------------------------------------------------------------------------------------
+    """)
+
