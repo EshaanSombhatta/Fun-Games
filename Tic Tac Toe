@@ -1,0 +1,70 @@
+#This code was written by Eshaan Sombhatta (visit travelwitheshaan.com)
+#This code is a simple tic tac toe game. 
+def TicTacToe(): 
+    print("\nThis is the numerical noughts and crosses board!")
+    print("Enter the numbers to the corresponding squares!")
+    print("The key is shown below!")
+    print("\n")
+    def print_board(a=["1",'2','3','4','5','6','7','8','9']):
+        print(f'''
+        |-----|-----|-----|
+        |  {a[0]}  |  {a[1]}  |  {a[2]}  |  
+        |-----|-----|-----|
+        |  {a[3]}  |  {a[4]}  |  {a[5]}  |  
+        |-----|-----|-----|
+        |  {a[6]}  |  {a[7]}  |  {a[8]}  |  
+        |-----|-----|-----|
+        ''')
+    print_board()
+    winning_combinations = [
+        set((1, 2, 3)),
+        set((4, 5, 6)),
+        set((7, 8, 9)),
+        set((1, 4, 7)),
+        set((2, 5, 8)),
+        set((3, 6, 9)),
+        set((1, 5, 9)),
+        set((3, 5, 7))]
+    a = [" ", " ", " ", " ", " ", " ", " ", " ", " "]
+    Player_1 = input("\nPlease enter player 1's name: ")
+    Player_2 = input("Please enter player 2's name: ")
+    print("\n" + Player_1 + " plays as X and " + Player_2 + " plays as O")
+    print(Player_1 +" moves first\n")
+    p1,p2 = set(()),set(())
+    turn = 0
+    has_won = False
+    while True:
+        try:
+            n = int(input("What is your number? ")) - 1
+            if n + 1 in p1 or n + 1 in p2 or n + 1 > 9 or n + 1 < 1:
+              print("\nPlease Choose Another Number-Your Number is already taken\n")
+              continue
+            elif turn % 2 == 0:
+                a[n] = "X"
+                p1.add(n + 1)
+            else:
+                a[n] = "O"
+                p2.add(n + 1)
+            for x in winning_combinations:
+                if x.issubset(p1):
+                    print("\n \n")
+                    print(Player_1, "won")
+                    has_won = True
+                    break
+                elif x.issubset(p2):
+                    print(Player_2, "won")
+                    has_won = True
+                    break
+            turn += 1
+            print_board(a)
+            if has_won == True:
+                print("\n \n")
+                break
+            if turn == 9:
+                print("The game is a tie")
+                break
+        except ValueError:
+            print("""You used a decimal point number, or a letter instead of an integer. Please try again. If you need a reminder, the key is: """)
+            print_board()
+            print("This is where you left off")
+            print_board(a)
