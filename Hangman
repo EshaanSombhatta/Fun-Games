@@ -1,0 +1,96 @@
+def hangman():
+    from random import choice, randint
+
+    def modeask():
+        mode = input("""What is your preferred mode:
+    Standard Mode: The Original Mode
+    Easy Mode: You get 60 tries to guess the word, and words are shorter
+    Medium Mode: You Get 50 tries to guess the word
+    Hard Mode: You Get 40 tries to guess the word, and a wrong guess 8 times in a row will end the game with a loss-there is also a low chance to get a boss word with 20 characters
+    Multiplayer Mode: You play with a friend, and you both get words of the same length
+    Custom Mode: You can put in whatever number you want
+    Random Mode: Everything is random
+    """)
+        return mode
+    mode=modeask()
+    multiplayerMemory = []
+    def base_game(difficulty, word_length):
+        character_list_accurate = [
+            "a", "b", "c", "d", "e", "f", "g", "h", 'i', 'j', 'k', 'l', 'm', 'n',
+            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',"y", 'z', "e", "e", "e",
+            "e", "a", "a", "a", "s", "t", "u", "o", "i", "i", "r", "n"]
+        word_str = ""
+        a = word_length
+        for x in range(0, a):
+            word_str += choice(character_list_accurate)
+            word_str = word_str.capitalize()
+            word = list(word_str)
+        total_string=[]
+        for x in range(a):
+            total_string.append("_")
+        num_x = 0
+        while True:
+            user_input = input(f"\nGuess one character of the string: ")
+            print(f"Word is {a} letters long, and you have {difficulty-num_x} more tries left")
+            if user_input == "Cheats_on":
+                print(word_str)
+                continue
+            elif len(user_input) != 1 or user_input.lower() not in character_list_accurate:
+                print("enter a different character")
+                continue
+            for x in word:
+                if x == user_input:
+                    total_string[word.index(x)] = x
+                    if word.count(x) > 1:
+                        for letter in range(1, word.count(x)):
+                            word[word.index(user_input)] = "_"
+                            total_string[word.index(user_input)] = x
+            if "_" not in total_string:
+                print(word_str)
+                score = difficulty - num_x-1
+                if mode!="Multiplayer Mode":
+                    print("You've Won! Good Job! It took You", num_x, "Tries!")
+                    print("Your Score is", score)
+                multiplayerMemory.append(score)
+                break
+            elif num_x > difficulty - 2:
+                print("You Took Too Many Tries, and your score is 0")
+                print("The word was",word_str)
+                multiplayerMemory.append(0)
+                break
+            for x in total_string:
+                print(x, end=" ")
+            num_x += 1
+
+    def modechoose():
+        mode=modeask()
+        if mode == "Standard Mode":
+            base_game(int(input("How many tries do you want")), randint(3, 10))
+        elif mode == "Easy Mode":
+            base_game(60, randint(2, 5))
+        elif mode == "Medium Mode":
+            base_game(50, randint(3, 8))
+        elif mode == "Multiplayer Mode":
+            a = randint(3, 8)
+            b = int(input("how many tries do you want?"))
+            for x in range(0, 2):
+                name = input("what is your name")
+                multiplayerMemory.append(name)
+                base_game(b, a)
+            if multiplayerMemory[1] > multiplayerMemory[3]:
+                print(f"{multiplayerMemory[0]} won with a score of {multiplayerMemory[1]}, beating {multiplayerMemory[2]} by {multiplayerMemory[1]-multiplayerMemory[3]} point(s)")
+            elif multiplayerMemory[1]== multiplayerMemory[3]:
+                print(f"IT WAS A TIE, and both players got {multiplayerMemory[3]} points")
+            else:
+                print(f"{multiplayerMemory[2]} won with a score of {multiplayerMemory[3]}, beating {multiplayerMemory[0]},by {multiplayerMemory[3]-multiplayerMemory[1]} points")
+        elif mode=="Custom Mode":
+            base_game(int(input("how many tries do you want?")), randint(int(input("what is smallest possible number")),int(input("What is the largest possible number?"))))
+        elif mode=="Hard Mode":
+            base_game(40,randint(5,13))
+        elif mode=="Random Mode":
+            base_game(randint(40,60),randint(randint(1,6),randint(7,15)))
+        else:
+            print("Try again")
+            modechoose()
+    modechoose()
+    
