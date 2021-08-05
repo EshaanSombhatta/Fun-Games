@@ -1,0 +1,38 @@
+def quiz():
+    print("\nThis is the trivia quiz. There will be a total of 10 questions that should be entered. Enter the letter corresponding to the answer choice. Your final score wil be printed at the very end. It will print your score up until then. Good Luck!")
+    Answer_list,User_answer_list,All_user_list,Wrong_answer_list  = ["C", "D", "A", "D", "B", "A", "D", "C", "A", "D"],[],[],[]
+
+    def Question_Format(question, option_a, option_b, option_c, option_d, correctAnswer):
+        print("\n" + question)
+        print("\n")
+        print("A. " + str(option_a))
+        print("B. " + str(option_b))
+        print("C. " + str(option_c))
+        print("D. " + str(option_d))
+        Answer = str(input("\nEnter your answer here: ")).lower()
+        All_user_list.append(Answer)
+        if Answer == correctAnswer:
+            User_answer_list.append(Answer)
+            print("Nice Job! Your Score is", str(len(User_answer_list)))
+        else:
+            Wrong_answer_list.append(Answer)
+            print("Good try, but that is not correct, the correct answer was " + correctAnswer.capitalize() + ". Your score is still", len(User_answer_list))
+            return Answer
+
+
+    Question_Format("Which two U.S. states don’t observe Daylight Saving Time?", "North Dakota and Texas", "Kentucky and Arizona", "Hawaii and Arizona", "Hawaii and Alaska", "c")
+    Question_Format("Which country consumes the most chocolate per capita?", "Germany", "France", "Spain", "Switzerland", "d")
+    Question_Format("About how many taste buds does the average human tongue have?", 10000, 20000, 3000, 7000, "a")
+    Question_Format("What year was the very first model of the iPhone released?", 2008, 2005, 2010, 2007, "d")
+    Question_Format("What animal is considered lucky in Norway?", "Giraffe", "Ladybug", "Bee", "Zebra", "b")
+    Question_Format("How many molecules of oxygen does ozone have?", 3, 8, 5, "None", "a")
+    Question_Format("When Michael Jordan played for the Chicago Bulls, how many NBA Championships did he win?", 10, 2, 4, 6, "d")
+    Question_Format("Who designed the Sydney Opera House?", "Paul Schneider", "Thomas Watson", "Jorn Utzon", "Valery Gerasimov", "c")
+    Question_Format("Which animal can be seen on the Porsche logo?", "Horse", "Pig", "Swordfish", "Seagull", "a")
+    Question_Format("Which Avenger is the only one who could calm the Hulk down?", "Thor", "Iron man", "Hawkeye", "Black widow", "d")
+    print("\nThese are all the correct answers you entered: " + str(User_answer_list))
+    print("These are all the incorrect answers you entered: " + str(Wrong_answer_list))
+    print("\nThese are all the answers you entered: " + str(All_user_list))
+    print("These are the correct answers: " + str(Answer_list))
+    print("\nYour final score is " + str(len(User_answer_list)))
+    print("\nGreat job and thanks for playing with us!")
