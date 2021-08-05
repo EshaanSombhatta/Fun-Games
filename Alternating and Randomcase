@@ -1,0 +1,30 @@
+from random import randint
+def randocase():
+    d=open("e.txt","r")
+    a=d.read()
+    a=list(a)
+    c=""
+    for x in a: 
+        b=randint(1,2)
+        if b==1:
+            c+=x.upper()
+        else:
+            c+=x.lower()
+    print(c)
+def alternatingcase():
+    d=open("e.txt","r")
+    a=d.read()
+    a=list(a)
+    c=""
+    b=1
+    for x in a:
+        if b==1:
+            c+=x.upper()
+            b-=1
+        else:
+            c+=x.lower()
+            b+=1
+    print(c)
+alternatingcase()
+print(" ")
+randocase()
